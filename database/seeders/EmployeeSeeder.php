@@ -20,11 +20,11 @@ class EmployeeSeeder extends Seeder
         $faker = Faker::create();
         $departments = Department::all();
 
-        foreach (range(1, 100) as $i) {
+        foreach (range(1, 10000) as $i) {
             Employee::create([
                 'name' => $faker->name,
                 'email' => $faker->unique()->safeEmail,
-                'phone' => $faker->optional()->phoneNumber,
+                'phone' => $faker->optional()->numerify(substr($faker->phoneNumber, 0, 15)),
                 'position' => $faker->jobTitle,
                 'salary' => $faker->randomFloat(2, 3000, 10000),
                 'hired_at' => $faker->date(),
