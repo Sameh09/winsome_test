@@ -59,7 +59,7 @@ git clone https://github.com/Sameh09/winsome_test.git
 cd winsome_test
 composer install
 npm install && npm run build
-cp .env.example .env
+copy .env.example .env
 php artisan key:generate
 php artisan storage:link
 php artisan migrate
@@ -72,6 +72,8 @@ Email    : admin@mail.com
 Password : admin 
 
 or Register New Account .
+```
 
-
+Thank you for your time and interest in reviewing my work.
+I hope this project meets your expectations and requirements.
 
