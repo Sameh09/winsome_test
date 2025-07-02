@@ -13,12 +13,13 @@ use Illuminate\Support\Facades\Cache;
 
 class EmployeeController extends Controller
 {
+
     public function index(Request $request)
     {
         $cacheKey = 'employees_' . md5(json_encode($request->all()));
 
         $employees = Cache::remember($cacheKey, 60, function () use ($request) {
-            return Employee::with('department')
+            return Employee::with('department')->withTrashed()
                 ->when($request->search, fn($q) => $q->where('name', 'like', "%{$request->search}%"))
                 ->when($request->status, fn($q) => $q->where('status', $request->status))
                 ->when($request->hire_date, fn($q) => $q->whereDate('hired_at', $request->hire_date))
@@ -28,7 +29,17 @@ class EmployeeController extends Controller
 
         return view('employees.index', compact('employees'));
     }
+    public function show($id)
+    {
+        $employee = Employee::with('department')->withTrashed()->find($id);
 
+        if (!$employee) {
+            return redirect()->route('employees.index')->with('error', 'Employee not found.');
+        }
+
+        return view('employees.show', compact('employee'));
+    }
+    
     public function create()
     {
         $departments = Department::all();
@@ -89,7 +100,7 @@ class EmployeeController extends Controller
             ->when($request->status, fn($q) => $q->where('status', $request->status))
             ->when($request->hire_date, fn($q) => $q->whereDate('hired_at', $request->hire_date))
             ->orderByDesc('id')
-            ->take(100) 
+            ->take(100)
             ->get();
         $filename = 'employees.csv';
         $handle = fopen($filename, 'w+');
@@ -110,7 +121,7 @@ class EmployeeController extends Controller
             ->when($request->status, fn($q) => $q->where('status', $request->status))
             ->when($request->hire_date, fn($q) => $q->whereDate('hired_at', $request->hire_date))
             ->orderByDesc('id')
-            ->take(100) 
+            ->take(100)
             ->get();
         $pdf = Pdf::loadView('employees.pdf', compact('employees'));
         return $pdf->download('employees.pdf');
@@ -120,6 +131,6 @@ class EmployeeController extends Controller
         $ids = $request->input('ids', []);
         Employee::whereIn('id', $ids)->delete();
         Cache::flush();
-        return back()->with('success', count($ids) . ' employees deleted');
+        return back()->with('success', count($ids) . ' employees soft deleted');
     }
 }

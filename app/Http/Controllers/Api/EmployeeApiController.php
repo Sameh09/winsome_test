@@ -29,13 +29,21 @@ class EmployeeApiController extends Controller
     }
 
 
-    public function show(Employee $employee)
+    public function show($id)
     {
-        $employee->load('department');
+        $employee = Employee::with('department')->find($id);
+
+        if (!$employee) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Employee not found',
+            ], 404);
+        }
+
         return response()->json([
             'success' => true,
             'data' => new EmployeeResource($employee),
-            'message' => 'Employee details fetched'
+            'message' => 'Employee details fetched',
         ]);
     }
 
@@ -68,8 +76,17 @@ class EmployeeApiController extends Controller
         ], 201);
     }
 
-    public function update(Request $request, Employee $employee)
+    public function update(Request $request, $id)
     {
+        $employee = Employee::withTrashed()->findOrFail($id);
+
+        if ($employee->trashed()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cannot update a deleted (trashed) employee.'
+            ], 403);
+        }
+
         $validated = Validator::make($request->all(), [
             'name' => 'required|string|max:100',
             'email' => "required|email|unique:employees,email,{$employee->id}",
@@ -96,9 +113,17 @@ class EmployeeApiController extends Controller
             'message' => 'Employee updated successfully'
         ]);
     }
-
-    public function destroy(Employee $employee)
+    public function destroy($id)
     {
+        $employee = Employee::withTrashed()->findOrFail($id);
+
+        if ($employee->trashed()) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Employee is already deleted.'
+            ], 400);
+        }
+
         $employee->delete();
 
         return response()->json([

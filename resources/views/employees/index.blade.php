@@ -78,11 +78,18 @@
                     </td>
                     <td>{{ $emp->hired_at->format('Y-m-d') }}</td>
                     <td class="text-nowrap">
-                        <a href="{{ route('employees.edit', $emp) }}" class="btn btn-sm btn-warning">Edit</a>
-                        <a href="{{ route('employees.destroy', $emp) }}" class="btn btn-sm btn-danger"
-                            onclick="return confirm('Delete this employee?')">
-                            Delete
-                        </a>
+                        @if($emp->trashed())
+                        {{-- <form action="{{ route('employees.restore', $emp->id) }}" method="POST" style="display:inline;">
+                            @csrf --}}
+                            <a href="{{ route('employees.restore', $emp->id) }}" class="btn btn-sm btn-success"
+                                onclick="return confirm('Restore this employee?')">Restore</a>
+                        {{-- </form> --}}
+                        @else
+                        <a href="{{ route('employees.show', $emp->id) }}" class="btn btn-sm btn-info">View</a>
+                        <a href="{{ route('employees.edit', $emp->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                        <a href="{{ route('employees.destroy', $emp->id) }}" class="btn btn-sm btn-danger"
+                            onclick="return confirm('Delete this employee?')">Delete</a>
+                        @endif
                     </td>
                 </tr>
                 @empty
