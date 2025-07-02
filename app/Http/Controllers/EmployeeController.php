@@ -82,9 +82,15 @@ class EmployeeController extends Controller
         return back()->with('success', 'Employee restored');
     }
 
-    public function exportCsv()
+    public function exportCsv(Request $request)
     {
-        $employees = Employee::with('department')->get();
+        $employees = Employee::with('department')
+            ->when($request->search, fn($q) => $q->where('name', 'like', "%{$request->search}%"))
+            ->when($request->status, fn($q) => $q->where('status', $request->status))
+            ->when($request->hire_date, fn($q) => $q->whereDate('hired_at', $request->hire_date))
+            ->orderByDesc('id')
+            ->take(100) 
+            ->get();
         $filename = 'employees.csv';
         $handle = fopen($filename, 'w+');
         fputcsv($handle, ['Name', 'Email', 'Phone', 'Department', 'Salary']);
@@ -97,9 +103,15 @@ class EmployeeController extends Controller
         return response()->download($filename)->deleteFileAfterSend(true);
     }
 
-    public function exportPdf()
+    public function exportPdf(Request $request)
     {
-        $employees = Employee::with('department')->get();
+        $employees = Employee::with('department')
+            ->when($request->search, fn($q) => $q->where('name', 'like', "%{$request->search}%"))
+            ->when($request->status, fn($q) => $q->where('status', $request->status))
+            ->when($request->hire_date, fn($q) => $q->whereDate('hired_at', $request->hire_date))
+            ->orderByDesc('id')
+            ->take(100) 
+            ->get();
         $pdf = Pdf::loadView('employees.pdf', compact('employees'));
         return $pdf->download('employees.pdf');
     }
