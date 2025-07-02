@@ -52,18 +52,19 @@ Response time < 300 ms
 [Winsome.Test.postman_collection.json](https://github.com/user-attachments/files/21022501/Winsome.Test.postman_collection.json)
 
 
-# Installation Guide :-
+# Installation Guide 
 
 git clone https://github.com/Sameh09/winsome_test.git
 cd winsome_test
 composer install
 npm install && npm run build
-copy .env.example .env
+cp .env.example .env
 php artisan key:generate
 php artisan storage:link
 php artisan migrate
 php artisan db:seed
 php artisan serve
+
 
 # default login credentials :-
 
