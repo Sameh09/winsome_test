@@ -54,6 +54,7 @@ Response time < 300 ms
 
 # Installation Guide 
 
+```bash
 git clone https://github.com/Sameh09/winsome_test.git
 cd winsome_test
 composer install
@@ -64,7 +65,6 @@ php artisan storage:link
 php artisan migrate
 php artisan db:seed
 php artisan serve
-
 
 # default login credentials :-
 
