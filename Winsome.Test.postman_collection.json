@@ -1,0 +1,172 @@
+{
+	"info": {
+		"_postman_id": "9d55fab7-ba7c-401b-b3e1-2f14d50201cc",
+		"name": "Winsome Test Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40516288",
+		"_collection_link": "https://www.postman.com/anas-academy/workspace/test/collection/40516288-9d55fab7-ba7c-401b-b3e1-2f14d50201cc?action=share&source=collection_link&creator=40516288"
+	},
+	"item": [
+		{
+			"name": "Employees",
+			"item": [
+				{
+					"name": "index",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base url}}/api/employees",
+							"host": [
+								"{{base url}}"
+							],
+							"path": [
+								"api",
+								"employees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Sameh Fathy\",\r\n  \"email\": \"samehfathy@mail.com\",\r\n  \"phone\": \"01028493454\",\r\n  \"position\": \"Backend Developer\",\r\n  \"salary\": 7500.00,\r\n  \"hired_at\": \"2025-07-02\",\r\n  \"status\": \"active\",\r\n  \"department_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base url}}/api/employees/",
+							"host": [
+								"{{base url}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "show",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base url}}/api/employees/5000",
+							"host": [
+								"{{base url}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"5000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Sameh Fathy1\",\r\n  \"email\": \"samehfathy81@mail.com\",\r\n  \"phone\": \"0102849345474\",\r\n  \"position\": \"Backend Developer\",\r\n  \"salary\": 7500.00,\r\n  \"hired_at\": \"2025-07-02\",\r\n  \"status\": \"active\",\r\n  \"department_id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base url}}/api/employees/5000",
+							"host": [
+								"{{base url}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"5000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Sameh Fathy1\",\r\n  \"email\": \"samehfathy1@mail.com\",\r\n  \"phone\": \"010284934544\",\r\n  \"position\": \"Backend Developer\",\r\n  \"salary\": 7500.00,\r\n  \"hired_at\": \"2025-07-02\",\r\n  \"status\": \"active\",\r\n  \"department_id\": 2\r\n}"
+						},
+						"url": {
+							"raw": "{{base url}}/api/employees/5000",
+							"host": [
+								"{{base url}}"
+							],
+							"path": [
+								"api",
+								"employees",
+								"5000"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base url",
+			"value": "http://localhost:8000",
+			"type": "default"
+		}
+	]
+}
